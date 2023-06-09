@@ -13,9 +13,8 @@ pynlpir.open()
 pynlpir.nlpir.ImportUserDict(b'userdic.txt')
 
 def seg_sentence(sentence):
-    # 对句子进行分词
     sentence_seged = pynlpir.segment(sentence,pos_tagging=False)
-    stopwords = stopwordslist('data/stopWord.txt')  # 这里加载停用词的路径
+    stopwords = stopwordslist('data/stopWord.txt')
     outstr = ''
     for word in sentence_seged:
         if word not in stopwords:
@@ -24,7 +23,6 @@ def seg_sentence(sentence):
                 outstr += " "
     return outstr
 def stopwordslist(filepath):
-    # 停用词
     stopwords = [line.strip() for line in open(filepath, 'r', encoding='utf-8').readlines()]
     return stopwords
 
@@ -81,7 +79,7 @@ import time
 import pandas as pd
 
 """
-困惑度计算
+困惑度计算  参考别人的代码，最主要的是超参数的设置和分词问题。
 """
 import gensim
 from gensim import corpora
@@ -246,110 +244,16 @@ if __name__ == '__main__':
     pyLDAvis.save_html(d, 'lda_pass505.html')  # 可视化的图
 
 '''
-原本想搞主题演化 但报错
+原本想搞主题演化 但报错 故放弃
 '''
-# import numpy as np
-# from scipy.spatial.distance import pdist
-# from numpy import *
-#
-# import numpy as np
-#
-#
-# def cosine_distance(vec1, vec2):
-#     Vec = np.vstack([vec1, vec2])
-#     dist2 = 1 - pdist(Vec, 'cosine')
-#     return dist2
-#
-#
-# # 余弦值计算方法
-# def lda_cos(list1, list2):
-#     a = []
-#     b = []
-#     for i in range(len(list1)):
-#         for j in range(len(list2)):
-#             if list1[i][0] == list2[j][0]:
-#                 a.append(j)
-#                 b.append(i)
-#                 print(list1[i][0])
-#                 print(list2[j][0])
-#     for i in range(len(a)):
-#         list2[a[i]], list2[b[i]] = list2[b[i]], list2[a[i]]
-#     cos_dic1 = []
-#     cos_dic2 = []
-#     for i in range(len(list1)):
-#         cos_dic1.append(list1[i][1])
-#         cos_dic2.append(list2[i][1])
-#
-#     m = 1 - cosine_distance(cos_dic1, cos_dic2)
-#     return m
-#
-#
-# # 向量余弦值就算，在方法中已经将向量的互换方法写明，大家只需要将向量穿进去即可
-# # 源数据如下：  list1 = ('a',0.11),('b',0.25）,('g',0.16)
-# def tumple_1(list1, list2):
-#     tuple_1 = []
-#     for i in range(len(list1)):
-#         a = [list1[i], list2[i]]
-#         tup_t = tuple(a)
-#         tuple_1.append(tup_t)
-#     return tuple_1
-#
-#
-# all = []
-# for i in range(t1, t2, 10):
-#     m = str(i)
-#     data = []
-#     sta = []
-#     k = []
-#     with open('topword.txt', encoding='utf8') as f:  # 这里为之前的lda生成的存入txt的主题向量
-#         for line in f.readlines():
-#             line = line.strip("\n")
-#             line = line.split(",")
-#             data.append(line)
-#     for i in range(0, len(data), 2):
-#         m = tumple_1(data[i], data[i + 1])
-#         sta.append(m)
-#     k.append(sta)
-#     all.append(k)
-# print(len(all))
-# sim_all = []
-# for m in range(len(all) - 1):
-#     sim_lda35 = []
-#     for i in range(len(all[m][0])):
-#         ad = []
-#         for j in range(len(all[m + 1][0])):
-#             la = lda_cos(all[m][0][i], all[m + 1][0][j])
-#             ad.append(la[0])
-#         sim_lda35.append(ad)
-#     sim_all.append(sim_lda35)
-# print(sim_all)
-# print('--------------------')
-# m1 = []
-# for i in range(len(sim_all)):
-#     m2 = []
-#     for j in range(len(sim_all[i])):
-#         m3 = []
-#         a = sum(sim_all[i][j])
-#         for k in range(len(sim_all[i][j])):
-#             m = sim_all[i][j][k] / a
-#             m3.append(m)
-#         m2.append(m3)
-#     m1.append(m2)
-# for i in range(len(m1)):
-#     for j in range(len(m1[i])):
-#         print(m1[i][j])
-# print('----------')
-# print(m1)
-#
-#
 
 '''
 数据去噪
 '''
 import pandas as pd
-data=pd.read_csv('C:/Users/86198/Desktop/学校/大三/专利信息检索与分析/Knowledge_Graph_incoPat_1.csv',encoding='utf-8-sig')
+data=pd.read_csv('C:/Users/86198/Desktop/学校/大三/专利信息检索与分析/data_all.csv',encoding='utf-8-sig')
 data=data[data['摘要 (中文)'].apply(lambda x:True if '知识图谱' in str(x) else False )]
-data.to_csv('C:/Users/86198/Desktop/学校/大三/专利信息检索与分析/Knowledge_Graph_new.csv', index=False,encoding='utf-8-sig')
+data.to_csv('C:/Users/86198/Desktop/学校/大三/专利信息检索与分析/data_all.csv', index=False,encoding='utf-8-sig')
 
 '''
 百度翻译 要钱
@@ -361,13 +265,7 @@ import urllib
 import random
 
 
-def baiduTranslate(translate_text, flag=0):
-    '''
-    :param translate_text: 待翻译的句子，len(q)<2000
-    :param flag: 1:原句子翻译成英文；0:原句子翻译成中文
-    :return: 返回翻译结果。
-    '''
-
+def baiduTranslate(translate_text, flag):
     appid = '20230531001695594'
     secretKey = 'zWO8jVZQKIyeE_dx9iHP'
     httpClient = None
@@ -407,7 +305,7 @@ def baiduTranslate(translate_text, flag=0):
 
 if __name__ == '__main__':
 
-    data = pd.read_csv('C:/Users/86198/Desktop/学校/大三/科研方法与论文写作/New.csv', encoding='utf-8-sig')
+    data = pd.read_csv('C:/Users/86198/Desktop/学校/大三/专利信息检索与分析/data_all.csv', encoding='utf-8-sig')
 
     with open('C:/Users/86198/Desktop/学校/大三/科研方法与论文写作/translator.txt', 'w', encoding='utf-8-sig') as f:
         for index, row in data.iterrows():
@@ -437,12 +335,12 @@ def translateYouDao(con):
             tgt.append(res_d[i]['tgt'])
         return ''.join(tgt)
     except Exception as e:
-        print('翻译失败：', e)
-        return '翻译失败：' + con
+        print('Failure', e)
+        return 'Failure' + con
 
-# 因为我另外一门课也要用机器翻译
+
 if __name__ == '__main__':
-    data = pd.read_csv('C:/Users/86198/Desktop/学校/大三/科研方法与论文写作/New.csv', encoding='utf-8-sig')
+    data = pd.read_csv('C:/Users/86198/Desktop/学校/大三/专利信息检索与分析/data_all.csv', encoding='utf-8-sig')
     with open('C:/Users/86198/Desktop/学校/大三/科研方法与论文写作/translator.txt', 'w', encoding='utf-8-sig') as f:
         for index, row in data.iterrows():
             if 'nan' in row['text']:
