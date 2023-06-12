@@ -19,7 +19,7 @@ static Connection conn;
  static ResultSet rs;
 
  static File file=new File("C:\\Users\\86198\\Desktop\\学校\\大三\\专利信息检索与分析\\keyword_extraction-master\\new_word.txt");
-// 因为
+
   public static void main(String[] args) throws Exception {
       //初始化
       CLibrary instance = (CLibrary)Native.loadLibrary("C:\\Program Files (x86)\\jsoup\\jsoup-1.11.2-javadoc\\demo\\src\\main\\java\\com\\example\\BossZhipin\\NLP\\win64\\NLPIR", CLibrary.class);
