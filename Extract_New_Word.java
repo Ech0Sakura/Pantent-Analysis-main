@@ -1,4 +1,4 @@
-package com.example.BossZhipin.NLP;
+package com.example.NLP;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
